@@ -19,9 +19,16 @@ create_log_dir() {
   chown -R ${APT_CACHER_NG_USER}:${APT_CACHER_NG_USER} ${APT_CACHER_NG_LOG_DIR}
 }
 
+create_log_files() {
+  touch ${APT_CACHER_NG_LOG_DIR}/apt-cacher.log ${APT_CACHER_NG_LOG_DIR}/apt-cacher.err
+  chmod 0644 ${APT_CACHER_NG_LOG_DIR}/*
+  chown ${APT_CACHER_NG_USER}:${APT_CACHER_NG_USER} ${APT_CACHER_NG_LOG_DIR}/*
+}
+
 create_pid_dir
 create_cache_dir
 create_log_dir
+create_log_files
 
 # allow arguments to be passed to apt-cacher-ng
 if [[ ${1:0:1} = '-' ]]; then
@@ -34,6 +41,7 @@ fi
 
 # default behaviour is to launch apt-cacher-ng
 if [[ -z ${1} ]]; then
+  exec tail -f ${APT_CACHER_NG_LOG_DIR}/apt-cacher.log &
   exec start-stop-daemon --start --chuid ${APT_CACHER_NG_USER}:${APT_CACHER_NG_USER} \
     --exec "$(command -v apt-cacher-ng)" -- -c /etc/apt-cacher-ng ${EXTRA_ARGS}
 else

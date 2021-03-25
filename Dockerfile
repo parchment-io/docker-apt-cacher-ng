@@ -1,16 +1,19 @@
-FROM ubuntu:focal-20200423
+FROM ubuntu:20.04
 
-LABEL maintainer="sameer@damagehead.com"
+LABEL maintainer="mkulka@parchment.com"
 
-ENV APT_CACHER_NG_VERSION=3.3 \
-    APT_CACHER_NG_CACHE_DIR=/var/cache/apt-cacher-ng \
+ENV APT_CACHER_NG_CACHE_DIR=/var/cache/apt-cacher-ng \
     APT_CACHER_NG_LOG_DIR=/var/log/apt-cacher-ng \
     APT_CACHER_NG_USER=apt-cacher-ng
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
-      apt-cacher-ng=${APT_CACHER_NG_VERSION}* ca-certificates wget \
+      ca-certificates wget libevent-2.1-7 libevent-pthreads-2.1-7 libwrap0 \
+ && wget http://ftp.debian.org/debian/pool/main/a/apt-cacher-ng/apt-cacher-ng_3.6.3-1_amd64.deb \
+ && dpkg -i apt-cacher-ng_3.6.3-1_amd64.deb \
+ && rm -f apt-cacher-ng_3.6.3-1_amd64.deb \
  && sed 's/# ForeGround: 0/ForeGround: 1/' -i /etc/apt-cacher-ng/acng.conf \
+ && sed 's/# VerboseLog: 1/VerboseLog: 1/' -i /etc/apt-cacher-ng/acng.conf \
  && sed 's/# PassThroughPattern:.*this would allow.*/PassThroughPattern: .* #/' -i /etc/apt-cacher-ng/acng.conf \
  && rm -rf /var/lib/apt/lists/*
 
