@@ -139,7 +139,7 @@ steps:
 
 services:
 - name: docker
-  image: prod-docker-index-docker-io.us-west-2.aws.parchment.com/library/docker:19.03.14-dind
+  image: prod-docker-index-docker-io.us-west-2.aws.parchment.com/library/docker:20.10.6-dind
   privileged: true
   volumes:
   - name: dockersock
@@ -205,7 +205,7 @@ steps:
 
 services:
 - name: docker
-  image: prod-docker-index-docker-io.us-west-2.aws.parchment.com/library/docker:19.03.14-dind
+  image: prod-docker-index-docker-io.us-west-2.aws.parchment.com/library/docker:20.10.6-dind
   privileged: true
   volumes:
   - name: dockersock
@@ -286,4 +286,4 @@ get:
   name: npmrc
 ---
 kind: signature
-hmac: a16ed76e34355d872710b79122cabef4bb78978cbae2708141557d3625d71d2c
+hmac: ad906dd72e3fbcc831ca89909271f67030bdc2fac78158306ba9e717183384be
