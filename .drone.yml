@@ -192,6 +192,8 @@ steps:
     status: pending
     access_token:
       from_secret: github_token
+    webhook_secret:
+      from_secret: webhook_secret
 - name: deployment-update
   image: prod-docker-parchment-docker-jfrog-io.us-west-2.aws.parchment.com/drone-plugins/github-deployment:stable
   pull: always
@@ -274,6 +276,12 @@ get:
   name: access_token
 ---
 kind: secret
+name: webhook_secret
+get:
+  path: drone/data/slack-hooks
+  name: webhook_secret
+---
+kind: secret
 name: bundler_ro
 get:
   path: drone/data/ci
@@ -286,4 +294,4 @@ get:
   name: npmrc
 ---
 kind: signature
-hmac: ad906dd72e3fbcc831ca89909271f67030bdc2fac78158306ba9e717183384be
+hmac: c93f7db50cfb9699a646fa5967789886cb91a497223d059582fe6bd3386e7a06
