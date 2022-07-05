@@ -98,7 +98,7 @@ steps:
   image: prod-docker-index-docker-io.us-west-2.aws.parchment.com/aquasec/trivy
   depends_on: [build]
   commands:
-    - trivy --exit-code 1 --quiet --skip-dirs "/usr/lib/ruby/gems" --skip-dirs "/usr/local/bundle/" --severity CRITICAL --ignore-unfixed docker.pkg.github.com/parchment-io/docker-apt-cacher-ng/apt-cacher-ng:pr-${DRONE_PULL_REQUEST}
+    - trivy --quiet image --exit-code 1 --skip-dirs "/usr/lib/ruby/gems" --skip-dirs "/usr/local/bundle/" --severity CRITICAL --ignore-unfixed docker.pkg.github.com/parchment-io/docker-apt-cacher-ng/apt-cacher-ng:pr-${DRONE_PULL_REQUEST}
   volumes:
   - name: dockersock
     path: /run
@@ -140,6 +140,7 @@ steps:
 services:
 - name: docker
   image: prod-docker-index-docker-io.us-west-2.aws.parchment.com/library/docker:20.10.6-dind
+  command: ["--registry-mirror", "https://prod-docker-index-docker-io.us-west-2.aws.parchment.com"]
   privileged: true
   volumes:
   - name: dockersock
@@ -294,4 +295,4 @@ get:
   name: npmrc
 ---
 kind: signature
-hmac: c93f7db50cfb9699a646fa5967789886cb91a497223d059582fe6bd3386e7a06
+hmac: 9cb39c278271fa93c16fbbccc7d58ee27dbade3d138d74af9738a7543f0550a4
