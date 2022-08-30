@@ -193,6 +193,8 @@ steps:
     status: pending
     access_token:
       from_secret: github_token
+    opsgenie_api_key:
+      from_secret: opsgenie_api_key
     webhook_secret:
       from_secret: webhook_secret
 - name: deployment-update
@@ -201,6 +203,8 @@ steps:
   settings:
     access_token:
       from_secret: github_token
+    opsgenie_api_key:
+      from_secret: opsgenie_api_key
   when:
     status:
     - success
@@ -294,5 +298,11 @@ get:
   path: drone/data/ci
   name: npmrc
 ---
+kind: secret
+name: opsgenie_api_key
+get:
+  path: drone/data/opsgenie
+  name: opsgenie_api_key
+---
 kind: signature
-hmac: 9cb39c278271fa93c16fbbccc7d58ee27dbade3d138d74af9738a7543f0550a4
+hmac: 7a4037b3430181c4fc8a264e7e27824c8a658bdb7dbb265cb3685d87753da1c7
