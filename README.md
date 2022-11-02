@@ -1,4 +1,6 @@
-# sameersbn/apt-cacher-ng:3.6.3-1
+[![apt-cacher-ng](https://github.com/sameersbn/docker-apt-cacher-ng/actions/workflows/build.yml/badge.svg)](https://github.com/sameersbn/docker-apt-cacher-ng/actions/workflows/build.yml)
+
+# sameersbn/apt-cacher-ng:3.7.4-20220421
 
 - [Introduction](#introduction)
   - [Contributing](#contributing)
@@ -49,7 +51,7 @@ If the above recommendations do not help then [report your issue](../../issues/n
 Automated builds of the image are available on [Dockerhub](https://hub.docker.com/r/parchment/apt-cacher-ng) and is the recommended method of installation.
 
 ```bash
-docker pull parchment/apt-cacher-ng:3.6.3-1
+docker pull sameersbn/apt-cacher-ng:3.7.4-20220421
 ```
 
 Alternatively you can build the image yourself.
@@ -66,7 +68,7 @@ Start Apt-Cacher NG using:
 docker run --name apt-cacher-ng --init -d --restart=always \
   --publish 3142:3142 \
   --volume /srv/docker/apt-cacher-ng:/var/cache/apt-cacher-ng \
-  parchment/apt-cacher-ng:3.6.3-1
+  sameersbn/apt-cacher-ng:3.7.4-20220421
 ```
 
 *Alternatively, you can use the sample [docker-compose.yml](docker-compose.yml) file to start the container using [Docker Compose](https://docs.docker.com/compose/)*
@@ -79,7 +81,7 @@ You can customize the launch command of Apt-Cacher NG server by specifying argum
 docker run --name apt-cacher-ng --init -it --rm \
   --publish 3142:3142 \
   --volume /srv/docker/apt-cacher-ng:/var/cache/apt-cacher-ng \
-  parchment/apt-cacher-ng:3.6.3-1 -h
+  sameersbn/apt-cacher-ng:3.7.4-20220421 -h
 ```
 
 ## Persistence
@@ -157,7 +159,7 @@ Using the [Command-line arguments](#command-line-arguments) feature, you can spe
 docker run --name apt-cacher-ng --init -it --rm \
   --publish 3142:3142 \
   --volume /srv/docker/apt-cacher-ng:/var/cache/apt-cacher-ng \
-  parchment/apt-cacher-ng:3.6.3-1 -e
+  sameersbn/apt-cacher-ng:3.7.4-20220421 -e
 ```
 
 The same can also be achieved on a running instance by visiting the url http://localhost:3142/acng-report.html in the web browser and selecting the **Start Scan and/or Expiration** option.
@@ -169,7 +171,7 @@ To upgrade to newer releases:
   1. Download the updated Docker image:
 
   ```bash
-  docker pull parchment/apt-cacher-ng:3.6.3-1
+  docker pull sameersbn/apt-cacher-ng:3.7.4-20220421
   ```
 
   2. Stop the currently running image:
@@ -189,7 +191,7 @@ To upgrade to newer releases:
   ```bash
   docker run --name apt-cacher-ng --init -d \
     [OPTIONS] \
-    parchment/apt-cacher-ng:3.6.3-1
+    sameersbn/apt-cacher-ng:3.7.4-20220421
   ```
 
 ## Shell Access

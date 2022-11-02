@@ -140,6 +140,7 @@ steps:
 services:
 - name: docker
   image: prod-docker-index-docker-io.us-west-2.aws.parchment.com/library/docker:20.10.6-dind
+  command: ["--registry-mirror", "https://prod-docker-index-docker-io.us-west-2.aws.parchment.com"]
   privileged: true
   volumes:
   - name: dockersock
@@ -192,6 +193,8 @@ steps:
     status: pending
     access_token:
       from_secret: github_token
+    opsgenie_api_key:
+      from_secret: opsgenie_api_key
     webhook_secret:
       from_secret: webhook_secret
 - name: deployment-update
@@ -200,6 +203,8 @@ steps:
   settings:
     access_token:
       from_secret: github_token
+    opsgenie_api_key:
+      from_secret: opsgenie_api_key
   when:
     status:
     - success
@@ -293,5 +298,11 @@ get:
   path: drone/data/ci
   name: npmrc
 ---
+kind: secret
+name: opsgenie_api_key
+get:
+  path: drone/data/opsgenie
+  name: opsgenie_api_key
+---
 kind: signature
-hmac: b143912fa515bbddd089ce05f234acc494ac4fd0779efc1c07749573fd3373b3
+hmac: 7a4037b3430181c4fc8a264e7e27824c8a658bdb7dbb265cb3685d87753da1c7
