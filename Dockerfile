@@ -1,4 +1,4 @@
-FROM ubuntu:jammy-20220421
+FROM ubuntu:jammy-20221020
 
 LABEL maintainer="mkulka@parchment.com"
 
@@ -8,12 +8,12 @@ ENV APT_CACHER_NG_VERSION=3.7.4 \
     APT_CACHER_NG_USER=apt-cacher-ng
 
 RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
-      apt-cacher-ng=${APT_CACHER_NG_VERSION}* ca-certificates wget \
- && sed 's/# ForeGround: 0/ForeGround: 1/' -i /etc/apt-cacher-ng/acng.conf \
- && sed 's/# VerboseLog: 1/VerboseLog: 1/' -i /etc/apt-cacher-ng/acng.conf \
- && sed 's/# PassThroughPattern:.*this would allow.*/PassThroughPattern: .* #/' -i /etc/apt-cacher-ng/acng.conf \
- && rm -rf /var/lib/apt/lists/*
+&& DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
+    apt-cacher-ng=${APT_CACHER_NG_VERSION}* ca-certificates wget \
+&& sed 's/# ForeGround: 0/ForeGround: 1/' -i /etc/apt-cacher-ng/acng.conf \
+&& sed 's/# VerboseLog: 1/VerboseLog: 1/' -i /etc/apt-cacher-ng/acng.conf \
+&& sed 's/# PassThroughPattern:.*this would allow.*/PassThroughPattern: .* #/' -i /etc/apt-cacher-ng/acng.conf \
+&& rm -rf /var/lib/apt/lists/*
 
 COPY entrypoint.sh /sbin/entrypoint.sh
 
