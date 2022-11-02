@@ -52,8 +52,8 @@ steps:
     - settings-xml
   settings:
     daemon_off: 'true'
-    repo: docker.pkg.github.com/parchment-io/docker-apt-cacher-ng/apt-cacher-ng
-    registry: docker.pkg.github.com
+    repo: parchment-docker-local.jfrog.io/parchment-io/docker-apt-cacher-ng
+    registry: parchment-docker-local.jfrog.io
     username:
       from_secret: docker_username
     password:
@@ -98,7 +98,7 @@ steps:
   image: prod-docker-index-docker-io.us-west-2.aws.parchment.com/aquasec/trivy
   depends_on: [build]
   commands:
-    - trivy --quiet image --exit-code 1 --skip-dirs "/usr/lib/ruby/gems" --skip-dirs "/usr/local/bundle/" --severity CRITICAL --ignore-unfixed docker.pkg.github.com/parchment-io/docker-apt-cacher-ng/apt-cacher-ng:pr-${DRONE_PULL_REQUEST}
+    - trivy --quiet image --exit-code 1 --skip-dirs "/usr/lib/ruby/gems" --skip-dirs "/usr/local/bundle/" --severity CRITICAL --ignore-unfixed parchment-docker-local.jfrog.io/parchment-io/docker-apt-cacher-ng:pr-${DRONE_PULL_REQUEST}
   volumes:
   - name: dockersock
     path: /run
@@ -126,7 +126,7 @@ steps:
   - name: dockersock
     path: /run
   settings:
-    image: docker.pkg.github.com/parchment-io/docker-apt-cacher-ng/apt-cacher-ng
+    image: parchment-docker-local.jfrog.io/parchment-io/docker-apt-cacher-ng
     create_git_tag: 'true'
     dockerconfig:
       from_secret: dockerconfig
@@ -139,14 +139,14 @@ steps:
 
 services:
 - name: docker
-  image: prod-docker-index-docker-io.us-west-2.aws.parchment.com/library/docker:20.10.6-dind
+  image: prod-docker-index-docker-io.us-west-2.aws.parchment.com/library/docker:20.10.21-dind
   command: ["--registry-mirror", "https://prod-docker-index-docker-io.us-west-2.aws.parchment.com"]
   privileged: true
   volumes:
   - name: dockersock
     path: /var/run
   settings:
-    registry: docker.pkg.github.com
+    registry: parchment-docker-local.jfrog.io
     username:
       from_secret: docker_username
     password:
@@ -212,7 +212,7 @@ steps:
 
 services:
 - name: docker
-  image: prod-docker-index-docker-io.us-west-2.aws.parchment.com/library/docker:20.10.6-dind
+  image: prod-docker-index-docker-io.us-west-2.aws.parchment.com/library/docker:20.10.21-dind
   privileged: true
   volumes:
   - name: dockersock
@@ -235,19 +235,19 @@ get:
 kind: secret
 name: dockerconfig
 get:
-  path: drone/data/github
+  path: drone/data/ci
   name: dockerconfig
 ---
 kind: secret
 name: docker_username
 get:
-  path: drone/data/github
+  path: drone/data/ci
   name: docker_username
 ---
 kind: secret
 name: docker_password
 get:
-  path: drone/data/github
+  path: drone/data/ci
   name: docker_password
 ---
 kind: secret
@@ -297,12 +297,6 @@ name: npmrc
 get:
   path: drone/data/ci
   name: npmrc
----
-kind: secret
-name: opsgenie_api_key
-get:
-  path: drone/data/opsgenie
-  name: opsgenie_api_key
 ---
 kind: signature
 hmac: 7a4037b3430181c4fc8a264e7e27824c8a658bdb7dbb265cb3685d87753da1c7
